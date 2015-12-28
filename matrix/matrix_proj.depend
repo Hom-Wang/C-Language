@@ -1,0 +1,14 @@
+# depslib dependency file v1.0
+1448904798 source:c:\users\hom\desktop\matrix\algorithm_matrix.c
+	<stdlib.h>
+	<stdio.h>
+	"algorithm_matrix.h"
+
+1448902458 c:\users\hom\desktop\matrix\algorithm_matrix.h
+	<stdint.h>
+
+1448903181 source:c:\users\hom\desktop\matrix\main.c
+	<stdlib.h>
+	<stdio.h>
+	"algorithm_matrix.h"
+
