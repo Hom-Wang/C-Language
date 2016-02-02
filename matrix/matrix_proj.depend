@@ -12,3 +12,31 @@
 	<stdio.h>
 	"algorithm_matrix.h"
 
+1454427028 source:c:\users\hom\desktop\matrix_20160202\main.c
+	<stdlib.h>
+	<stdio.h>
+	"algorithm_matrix.h"
+
+1454426198 c:\users\hom\desktop\matrix_20160202\algorithm_matrix.h
+	<stdint.h>
+
+1454427146 source:c:\users\hom\desktop\matrix_20160202\algorithm_matrix.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"algorithm_matrix.h"
+
+1454439824 source:c:\users\hom\desktop\matrix_20160203\algorithm_matrix.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"algorithm_matrix.h"
+
+1454439513 c:\users\hom\desktop\matrix_20160203\algorithm_matrix.h
+	<stdint.h>
+
+1454439720 source:c:\users\hom\desktop\matrix_20160203\main.c
+	<stdlib.h>
+	<stdio.h>
+	"algorithm_matrix.h"
+
