@@ -1,0 +1,80 @@
+# depslib dependency file v1.0
+1448904798 source:c:\users\hom\desktop\matrix\algorithm_matrix.c
+	<stdlib.h>
+	<stdio.h>
+	"algorithm_matrix.h"
+
+1448902458 c:\users\hom\desktop\matrix\algorithm_matrix.h
+	<stdint.h>
+
+1448903181 source:c:\users\hom\desktop\matrix\main.c
+	<stdlib.h>
+	<stdio.h>
+	"algorithm_matrix.h"
+
+1454335524 source:c:\users\hom\desktop\matrix_20151201\main.c
+	<stdlib.h>
+	<stdio.h>
+	"algorithm_matrix.h"
+
+1448902458 c:\users\hom\desktop\matrix_20151201\algorithm_matrix.h
+	<stdint.h>
+
+1454331343 source:c:\users\hom\desktop\matrix_20151201\algorithm_matrix.c
+	<stdlib.h>
+	<stdio.h>
+	<stdint.h>
+	"algorithm_matrix.h"
+
+1454350882 source:c:\users\hom\desktop\newton_20151201\algorithm_matrix.c
+	<stdlib.h>
+	<stdio.h>
+	"algorithm_matrix.h"
+
+1448902458 c:\users\hom\desktop\newton_20151201\algorithm_matrix.h
+	<stdint.h>
+
+1454356920 source:c:\users\hom\desktop\newton_20151201\main.c
+	<stdlib.h>
+	<stdio.h>
+	"algorithm_matrix.h"
+
+1454430582 source:c:\users\hom\desktop\newton_20160202\algorithm_matrix.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"algorithm_matrix.h"
+
+1454428350 c:\users\hom\desktop\newton_20160202\algorithm_matrix.h
+	<stdint.h>
+
+1454431535 source:c:\users\hom\desktop\newton_20160202\main.c
+	<stdlib.h>
+	<stdio.h>
+	"algorithm_matrix.h"
+
+1454490281 source:c:\users\hom\desktop\newton_20160203\main.c
+	<stdlib.h>
+	<stdio.h>
+	"algorithm_matrix.h"
+	"algorithm_newtonMethod.h"
+
+1454439513 c:\users\hom\desktop\newton_20160203\algorithm_matrix.h
+	<stdint.h>
+
+1454439824 source:c:\users\hom\desktop\newton_20160203\algorithm_matrix.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"algorithm_matrix.h"
+
+1454490203 source:c:\users\hom\desktop\newton_20160203\algorithm_newtonmethod.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"algorithm_matrix.h"
+	"algorithm_newtonMethod.h"
+
+1454489975 c:\users\hom\desktop\newton_20160203\algorithm_newtonmethod.h
+	<stdint.h>
+
