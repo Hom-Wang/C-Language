@@ -32,13 +32,13 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="algorithm_matrix.c">
-			<Option compilerVar="CC" />
-		</Unit>
-		<Unit filename="algorithm_matrix.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="matrix.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="matrix.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

@@ -40,3 +40,18 @@
 	<stdio.h>
 	"algorithm_matrix.h"
 
+1466436870 source:d:\my_research\my_development\computer c\matrix_20160203\main.c
+	<stdlib.h>
+	<stdio.h>
+	"matrix.h"
+
+1466436859 d:\my_research\my_development\computer c\matrix_20160203\matrix.h
+	<stdlib.h>
+	<stdint.h>
+
+1466436883 source:d:\my_research\my_development\computer c\matrix_20160203\matrix.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"matrix.h"
+
