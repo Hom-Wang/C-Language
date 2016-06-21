@@ -7,9 +7,10 @@
 #include "matrix.h"
 /*====================================================================================================*/
 /*====================================================================================================*/
-static void MATRIX_ERROR( void )
+static void MATRIX_ERROR( matrix_t *pMatrix )
 {
-  printf("\n MATRIX_ERROR...\n");
+  printf("\n MATRIX ERROR...\n");
+  Matrix_PrintInfo(pMatrix);
   while(1);
 }
 /*====================================================================================================*/
@@ -23,10 +24,9 @@ static void MATRIX_ERROR( void )
 /*====================================================================================================*/
 void Matrix_Init( matrix_t *pMatrix, double *pArray, uint16_t rows, uint16_t cols )
 {
-  pMatrix->mType = MTYPE_POINTER;
+  pMatrix->mType = MTYPE_NORMAL;
   pMatrix->rows  = rows;
   pMatrix->cols  = cols;
-  pMatrix->total = rows * cols;
   pMatrix->arr   = pArray;
 }
 /*====================================================================================================*/
@@ -40,7 +40,7 @@ void Matrix_Init( matrix_t *pMatrix, double *pArray, uint16_t rows, uint16_t col
 /*====================================================================================================*/
 void Matrix_Clear( matrix_t *pMatrix )
 {
-  memset(pMatrix->arr, 0, sizeof(double) * pMatrix->total);
+  memset(pMatrix->arr, 0, sizeof(double) * pMatrix->rows * pMatrix->cols);
 }
 /*====================================================================================================*/
 /*====================================================================================================*
@@ -59,8 +59,7 @@ matrix_t *Matrix_Create( uint16_t rows, uint16_t cols )
   matrix->mType = MTYPE_MALLOC;
   matrix->rows  = rows;
   matrix->cols  = cols;
-  matrix->total = rows * cols;
-  matrix->arr   = (double *)malloc(sizeof(double) * matrix->total);
+  matrix->arr   = (double *)malloc(sizeof(double) * matrix->rows * matrix->cols);
 
   return matrix;
 }
@@ -81,7 +80,6 @@ matrix_t *Matrix_CreatePtr( double *pArray, uint16_t rows, uint16_t cols )
   matrix->mType = MTYPE_POINTER;
   matrix->rows  = rows;
   matrix->cols  = cols;
-  matrix->total = rows * cols;
   matrix->arr   = pArray;
 
   return matrix;
@@ -133,9 +131,9 @@ void Matrix_Delete( matrix_t *matrix )
 void Matrix_Copy( matrix_t *pMatrixC1, matrix_t *pMatrixC2 )
 {
   if((pMatrixC1->rows != pMatrixC2->rows) || (pMatrixC1->cols != pMatrixC2->cols))
-    MATRIX_ERROR();
+    MATRIX_ERROR(pMatrixC1);
 
-  for(uint32_t i = 0; i < pMatrixC1->total; i++)
+  for(uint32_t i = 0; i < pMatrixC1->rows * pMatrixC1->cols; i++)
     pMatrixC1->arr[i] = pMatrixC2->arr[i];
 }
 /*====================================================================================================*/
@@ -151,7 +149,7 @@ matrix_t *Matrix_CopyMatrix( matrix_t *pMatrix )
 {
   matrix_t *matrix = Matrix_Create(pMatrix->rows, pMatrix->cols);
 
-  for(uint32_t i = 0; i < matrix->total; i++)
+  for(uint32_t i = 0; i < matrix->rows * matrix->cols; i++)
     matrix->arr[i] = pMatrix->arr[i];
 
   return matrix;
@@ -169,7 +167,7 @@ matrix_t *Matrix_CopyArray( double *pArray, uint16_t rows, uint16_t cols )
 {
   matrix_t *matrix = Matrix_Create(rows, cols);
 
-  for(uint32_t i = 0; i < matrix->total; i++)
+  for(uint32_t i = 0; i < matrix->rows * matrix->cols; i++)
     matrix->arr[i] = pArray[i];
 
   return matrix;
@@ -206,8 +204,8 @@ void Matrix_Resize( matrix_t *pMatrix, uint16_t rows, uint16_t cols )
 /*====================================================================================================*/
 void Matrix_SetData( matrix_t *pMatrix, uint16_t rows, uint16_t cols, double data )
 {
-  if((rows < pMatrix->rows) && (cols < pMatrix->cols))
-    MATRIX_ERROR();
+  if((rows >= pMatrix->rows) && (cols >= pMatrix->cols))
+    MATRIX_ERROR(pMatrix);
 
   pMatrix->arr[rows * pMatrix->cols + cols] = data;
 }
@@ -222,8 +220,8 @@ void Matrix_SetData( matrix_t *pMatrix, uint16_t rows, uint16_t cols, double dat
 /*====================================================================================================*/
 double Matrix_GetData( matrix_t *pMatrix, uint16_t rows, uint16_t cols )
 {
-  if((rows < pMatrix->rows) && (cols < pMatrix->cols))
-    MATRIX_ERROR();
+  if((rows >= pMatrix->rows) && (cols >= pMatrix->cols))
+    MATRIX_ERROR(pMatrix);
 
   return pMatrix->arr[rows * pMatrix->cols + cols];
 }
@@ -239,7 +237,7 @@ double Matrix_GetData( matrix_t *pMatrix, uint16_t rows, uint16_t cols )
 void Matrix_SetDiag( matrix_t *pMatrix, double data )
 {
   if(pMatrix->rows != pMatrix->cols)
-    MATRIX_ERROR();
+    MATRIX_ERROR(pMatrix);
 
   for(uint16_t i = 0; i < pMatrix->cols; i++)
     pMatrix->arr[i * pMatrix->cols + i] = data;
@@ -256,7 +254,7 @@ void Matrix_SetDiag( matrix_t *pMatrix, double data )
 void Matrix_GetDiag( matrix_t *pMatrix, matrix_t *pMatrixD )
 {
   if((pMatrix->rows != pMatrix->cols) || (pMatrixD->rows != pMatrixD->cols) || (pMatrix->rows != pMatrixD->cols))
-    MATRIX_ERROR();
+    MATRIX_ERROR(pMatrix);
 
   if(pMatrix != pMatrixD) {
     Matrix_Clear(pMatrix);
@@ -282,7 +280,7 @@ void Matrix_GetDiag( matrix_t *pMatrix, matrix_t *pMatrixD )
 void Matrix_SetMatrix( matrix_t *pMatrix, matrix_t *pMatrixS, uint16_t rows_pos, uint16_t cols_pos )
 {
   if(((rows_pos + pMatrixS->rows) > pMatrix->rows) || ((cols_pos + pMatrixS->cols) > pMatrix->cols))
-    MATRIX_ERROR();
+    MATRIX_ERROR(pMatrix);
 
   uint32_t cnt = 0;
   for(uint16_t i = rows_pos; i < rows_pos + pMatrixS->rows; i++) {
@@ -303,7 +301,7 @@ void Matrix_SetMatrix( matrix_t *pMatrix, matrix_t *pMatrixS, uint16_t rows_pos,
 void Matrix_GetMatrix( matrix_t *pMatrixG, matrix_t *pMatrix, uint16_t rows_pos, uint16_t cols_pos )
 {
   if(((rows_pos + pMatrixG->rows) > pMatrix->rows) || ((cols_pos + pMatrixG->cols) > pMatrix->cols))
-    MATRIX_ERROR();
+    MATRIX_ERROR(pMatrix);
 
   uint32_t cnt = 0;
   for(uint16_t i = rows_pos; i < rows_pos + pMatrixG->rows; i++) {
@@ -325,7 +323,7 @@ void Matrix_Add( matrix_t *pMatrix, matrix_t *pMatrixA1, matrix_t *pMatrixA2 )
 {
   if((pMatrix->rows != pMatrixA1->rows) || (pMatrix->cols != pMatrixA1->cols) ||
      (pMatrix->rows != pMatrixA2->rows) || (pMatrix->cols != pMatrixA2->cols))
-    MATRIX_ERROR();
+    MATRIX_ERROR(pMatrix);
 
   for(uint16_t i = 0; i < pMatrix->rows; i++)
     for(uint16_t j = 0; j < pMatrix->cols; j++)
@@ -344,7 +342,7 @@ void Matrix_Sub( matrix_t *pMatrix, matrix_t *pMatrixS1, matrix_t *pMatrixS2 )
 {
   if((pMatrix->rows != pMatrixS1->rows) || (pMatrix->cols != pMatrixS1->cols) ||
      (pMatrix->rows != pMatrixS2->rows) || (pMatrix->cols != pMatrixS2->cols))
-    MATRIX_ERROR();
+    MATRIX_ERROR(pMatrix);
 
   for(uint16_t i = 0; i < pMatrix->rows; i++)
     for(uint16_t j = 0; j < pMatrix->cols; j++)
@@ -362,7 +360,7 @@ void Matrix_Sub( matrix_t *pMatrix, matrix_t *pMatrixS1, matrix_t *pMatrixS2 )
 void Matrix_Mul( matrix_t *pMatrix, matrix_t *pMatrixM1, matrix_t *pMatrixM2 )
 {
   if((pMatrixM1->cols != pMatrixM2->rows) || (pMatrix->rows != pMatrixM1->rows) || (pMatrix->cols != pMatrixM2->cols))
-    MATRIX_ERROR();
+    MATRIX_ERROR(pMatrix);
 
   if(pMatrix == pMatrixM1) {
     matrix_t *matrix = Matrix_CopyMatrix(pMatrixM1);
@@ -409,9 +407,9 @@ void Matrix_Mul( matrix_t *pMatrix, matrix_t *pMatrixM1, matrix_t *pMatrixM2 )
 void Matrix_MulNumb( matrix_t *pMatrix, matrix_t *pMatrixM1, double number )
 {
   if((pMatrix->cols != pMatrixM1->cols) || (pMatrix->rows != pMatrixM1->rows))
-    MATRIX_ERROR();
+    MATRIX_ERROR(pMatrix);
 
-  for(uint32_t i = 0; i < pMatrix->total; i++) {
+  for(uint32_t i = 0; i < pMatrix->rows * pMatrix->cols; i++) {
     pMatrix->arr[i] = pMatrixM1->arr[i] * number;
   }
 }
@@ -455,7 +453,7 @@ void Matrix_Transpose( matrix_t *pMatrix, matrix_t *pMatrixT )
 void Matrix_Inv( matrix_t *pMatrix, matrix_t *pMatrixInv )
 {
   if((pMatrix->rows != pMatrix->cols) || (pMatrix->rows != pMatrixInv->rows))
-    MATRIX_ERROR();
+    MATRIX_ERROR(pMatrix);
 
   /* check nonsingular */
   // if matrix is nonsingular
@@ -590,6 +588,28 @@ void Matrix_Print( matrix_t *pMatrix )
     }
     printf("\n");
   }
+}
+/*====================================================================================================*/
+/*====================================================================================================*
+**函數 : Matrix_PrintInfo
+**功能 : Print Matrix Information
+**輸入 : *pMatrix
+**輸出 : none
+**使用 : Matrix_PrintInfo(matrix);
+**====================================================================================================*/
+/*====================================================================================================*/
+void Matrix_PrintInfo( matrix_t *pMatrix )
+{
+  printf("matrix.rows  = %d\n", pMatrix->rows);
+  printf("matrix.cols  = %d\n", pMatrix->cols);
+  printf("matrix.arr   = %d\n", (uint32_t)pMatrix->arr);
+  if(pMatrix->mType == MTYPE_NORMAL)
+    printf("matrix.mType = NORMAL\n");
+  else if(pMatrix->mType == MTYPE_MALLOC)
+    printf("matrix.mType = MALLOC\n");
+  else
+    printf("matrix.mType = POINTER\n");
+  printf("\n");
 }
 /*====================================================================================================*/
 /*====================================================================================================*/

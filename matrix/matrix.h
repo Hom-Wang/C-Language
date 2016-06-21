@@ -8,14 +8,14 @@
 /*====================================================================================================*/
 /*====================================================================================================*/
 typedef enum {
-  MTYPE_MALLOC = 0,
-  MTYPE_POINTER,
+  MTYPE_NORMAL = 0,
+  MTYPE_MALLOC,
+  MTYPE_POINTER
 } matrix_mType_t;
 
 typedef struct {
   uint16_t rows;
   uint16_t cols;
-  uint32_t total;
   double   *arr;
   matrix_mType_t mType;
 } matrix_t;
@@ -47,6 +47,7 @@ void      Matrix_GaussianElimination( matrix_t *pMatrix, matrix_t *pMatrixGE );
 double    Matrix_Det( matrix_t *pMatrix );
 void      Matrix_Cholesky( matrix_t *pMatrix, matrix_t *pMatrixC );
 void      Matrix_Print( matrix_t *pMatrix );
+void      Matrix_PrintInfo( matrix_t *pMatrix );
 /*====================================================================================================*/
 /*====================================================================================================*/
 #endif
