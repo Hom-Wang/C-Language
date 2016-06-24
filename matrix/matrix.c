@@ -15,22 +15,6 @@ static void MATRIX_ERROR( matrix_t *pMatrix )
 }
 /*====================================================================================================*/
 /*====================================================================================================*
-**函數 : Matrix_Init
-**功能 : Init Matrix
-**輸入 : *pMatrix, *pArray, rows, cols
-**輸出 : none
-**使用 : Matrix_Init(matrix, array, rows, cols);
-**====================================================================================================*/
-/*====================================================================================================*/
-void Matrix_Init( matrix_t *pMatrix, double *pArray, uint16_t rows, uint16_t cols )
-{
-  pMatrix->mType = MTYPE_NORMAL;
-  pMatrix->rows  = rows;
-  pMatrix->cols  = cols;
-  pMatrix->arr   = pArray;
-}
-/*====================================================================================================*/
-/*====================================================================================================*
 **函數 : Matrix_Clear
 **功能 : Clear Matrix
 **輸入 : *pMatrix
@@ -40,7 +24,23 @@ void Matrix_Init( matrix_t *pMatrix, double *pArray, uint16_t rows, uint16_t col
 /*====================================================================================================*/
 void Matrix_Clear( matrix_t *pMatrix )
 {
-  memset(pMatrix->arr, 0, sizeof(double) * pMatrix->rows * pMatrix->cols);
+  memset(pMatrix->arr, 0, sizeof(matrix_arr_t) * pMatrix->rows * pMatrix->cols);
+}
+/*====================================================================================================*/
+/*====================================================================================================*
+**函數 : Matrix_Init
+**功能 : Init Matrix
+**輸入 : *pMatrix, *pArray, rows, cols
+**輸出 : none
+**使用 : Matrix_Init(matrix, array, rows, cols);
+**====================================================================================================*/
+/*====================================================================================================*/
+void Matrix_Init( matrix_t *pMatrix, matrix_arr_t *pArray, uint16_t rows, uint16_t cols )
+{
+  pMatrix->mType = MTYPE_NORMAL;
+  pMatrix->rows  = rows;
+  pMatrix->cols  = cols;
+  pMatrix->arr   = pArray;
 }
 /*====================================================================================================*/
 /*====================================================================================================*
@@ -59,7 +59,7 @@ matrix_t *Matrix_Create( uint16_t rows, uint16_t cols )
   matrix->mType = MTYPE_MALLOC;
   matrix->rows  = rows;
   matrix->cols  = cols;
-  matrix->arr   = (double *)malloc(sizeof(double) * matrix->rows * matrix->cols);
+  matrix->arr   = (matrix_arr_t *)malloc(sizeof(matrix_arr_t) * matrix->rows * matrix->cols);
 
   return matrix;
 }
@@ -72,7 +72,7 @@ matrix_t *Matrix_Create( uint16_t rows, uint16_t cols )
 **使用 : matrix = Matrix_CreatePtr(array, rows, cols);
 **====================================================================================================*/
 /*====================================================================================================*/
-matrix_t *Matrix_CreatePtr( double *pArray, uint16_t rows, uint16_t cols )
+matrix_t *Matrix_CreatePtr( matrix_arr_t *pArray, uint16_t rows, uint16_t cols )
 {
   matrix_t *matrix = NULL;
 
@@ -93,7 +93,7 @@ matrix_t *Matrix_CreatePtr( double *pArray, uint16_t rows, uint16_t cols )
 **使用 : matrix = Matrix_CreateDiag(cols, data);
 **====================================================================================================*/
 /*====================================================================================================*/
-matrix_t *Matrix_CreateDiag( uint16_t cols, double data )
+matrix_t *Matrix_CreateDiag( uint16_t cols, matrix_arr_t data )
 {
   matrix_t *matrix = Matrix_Create(cols, cols);
 
@@ -163,7 +163,7 @@ matrix_t *Matrix_CopyMatrix( matrix_t *pMatrix )
 **使用 : matrix = Matrix_CopyArray(array, row, col);
 **====================================================================================================*/
 /*====================================================================================================*/
-matrix_t *Matrix_CopyArray( double *pArray, uint16_t rows, uint16_t cols )
+matrix_t *Matrix_CopyArray( matrix_arr_t *pArray, uint16_t rows, uint16_t cols )
 {
   matrix_t *matrix = Matrix_Create(rows, cols);
 
@@ -202,7 +202,7 @@ void Matrix_Resize( matrix_t *pMatrix, uint16_t rows, uint16_t cols )
 **使用 : Matrix_SetData(matrix, rows, cols, data);
 **====================================================================================================*/
 /*====================================================================================================*/
-void Matrix_SetData( matrix_t *pMatrix, uint16_t rows, uint16_t cols, double data )
+void Matrix_SetData( matrix_t *pMatrix, uint16_t rows, uint16_t cols, matrix_arr_t data )
 {
   if((rows >= pMatrix->rows) && (cols >= pMatrix->cols))
     MATRIX_ERROR(pMatrix);
@@ -218,7 +218,7 @@ void Matrix_SetData( matrix_t *pMatrix, uint16_t rows, uint16_t cols, double dat
 **使用 : data = Matrix_GetData(matrix, rows, cols);
 **====================================================================================================*/
 /*====================================================================================================*/
-double Matrix_GetData( matrix_t *pMatrix, uint16_t rows, uint16_t cols )
+matrix_arr_t Matrix_GetData( matrix_t *pMatrix, uint16_t rows, uint16_t cols )
 {
   if((rows >= pMatrix->rows) && (cols >= pMatrix->cols))
     MATRIX_ERROR(pMatrix);
@@ -234,7 +234,7 @@ double Matrix_GetData( matrix_t *pMatrix, uint16_t rows, uint16_t cols )
 **使用 : Matrix_SetDiag(matrix, data);
 **====================================================================================================*/
 /*====================================================================================================*/
-void Matrix_SetDiag( matrix_t *pMatrix, double data )
+void Matrix_SetDiag( matrix_t *pMatrix, matrix_arr_t data )
 {
   if(pMatrix->rows != pMatrix->cols)
     MATRIX_ERROR(pMatrix);
@@ -373,6 +373,7 @@ void Matrix_Mul( matrix_t *pMatrix, matrix_t *pMatrixM1, matrix_t *pMatrixM2 )
       }
     }
   }
+/*
   else if(pMatrix == pMatrixM2) {
     matrix_t *matrix = Matrix_CopyMatrix(pMatrixM2);
     Matrix_Clear(pMatrix);
@@ -384,6 +385,7 @@ void Matrix_Mul( matrix_t *pMatrix, matrix_t *pMatrixM1, matrix_t *pMatrixM2 )
       }
     }
   }
+*/
   else {
     Matrix_Clear(pMatrix);
     for(uint16_t i = 0; i < pMatrixM1->rows; i++) {
@@ -404,7 +406,7 @@ void Matrix_Mul( matrix_t *pMatrix, matrix_t *pMatrixM1, matrix_t *pMatrixM2 )
 **使用 : Matrix_MulNumb(matrix, matrixM1, number);
 **====================================================================================================*/
 /*====================================================================================================*/
-void Matrix_MulNumb( matrix_t *pMatrix, matrix_t *pMatrixM1, double number )
+void Matrix_MulNumb( matrix_t *pMatrix, matrix_t *pMatrixM1, matrix_arr_t number )
 {
   if((pMatrix->cols != pMatrixM1->cols) || (pMatrix->rows != pMatrixM1->rows))
     MATRIX_ERROR(pMatrix);
@@ -481,7 +483,7 @@ void Matrix_Inv( matrix_t *pMatrix, matrix_t *pMatrixInv )
 /*====================================================================================================*/
 void Matrix_GaussianElimination( matrix_t *pMatrix, matrix_t *pMatrixGE )
 {
-  double tmp;
+  matrix_arr_t tmp;
 
   if(pMatrix != pMatrixGE)
     Matrix_Copy(pMatrix, pMatrixGE);
@@ -524,9 +526,9 @@ void Matrix_GaussianElimination( matrix_t *pMatrix, matrix_t *pMatrixGE )
 **使用 : data = Matrix_Det(matrix);
 **====================================================================================================*/
 /*====================================================================================================*/
-double Matrix_Det( matrix_t *pMatrix )
+matrix_arr_t Matrix_Det( matrix_t *pMatrix )
 {
-  double det = 0;
+  matrix_arr_t det = 0;
 /*
   if(matrix->cols != matrix->rows)
     return 0;
@@ -549,7 +551,7 @@ void Matrix_Cholesky( matrix_t *pMatrix, matrix_t *pMatrixC )
   if(matrixA->cols != matrixA->rows)
     return;
 
-  double tempSum = 0;
+  matrix_arr_t tempSum = 0;
   for(uint16_t j = 0; j < matrix->cols; j++) {
     for(uint16_t i = j; i < matrix->rows; i++) {
       tempSum = 0;
@@ -581,10 +583,7 @@ void Matrix_Print( matrix_t *pMatrix )
   for(uint16_t i = 0; i < pMatrix->rows; i++) {
     printf(" ");
     for(uint16_t j = 0; j < pMatrix->cols; j++) {
-      if(pMatrix->arr[i * pMatrix->cols + j] < 0)
-        printf("%.5f\t", pMatrix->arr[i * pMatrix->cols + j]);
-      else
-        printf("+%.5f\t", pMatrix->arr[i * pMatrix->cols + j]);
+      printf("%-+14f  ", pMatrix->arr[i * pMatrix->cols + j]);
     }
     printf("\n");
   }

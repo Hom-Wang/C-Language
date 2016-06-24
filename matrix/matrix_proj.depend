@@ -70,12 +70,18 @@
 	<string.h>
 	"matrix.h"
 
-1466436870 source:d:\my_research\my_development\computer c\matrix_20160621\main.c
+1466797863 source:d:\my_research\my_development\computer c\matrix_20160621\main.c
 	<stdlib.h>
 	<stdio.h>
 	"matrix.h"
 
-1466509799 d:\my_research\my_development\computer c\matrix_20160621\matrix.h
+1466796621 d:\my_research\my_development\computer c\matrix_20160621\matrix.h
 	<stdlib.h>
 	<stdint.h>
+
+1466797328 source:d:\my_research\my_development\computer c\matrix_20160621\matrix.c
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+	"matrix.h"
 

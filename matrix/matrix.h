@@ -7,6 +7,8 @@
 #include <stdint.h>
 /*====================================================================================================*/
 /*====================================================================================================*/
+typedef double matrix_arr_t;
+
 typedef enum {
   MTYPE_NORMAL = 0,
   MTYPE_MALLOC,
@@ -14,9 +16,9 @@ typedef enum {
 } matrix_mType_t;
 
 typedef struct {
-  uint16_t rows;
-  uint16_t cols;
-  double   *arr;
+  uint16_t       rows;
+  uint16_t       cols;
+  matrix_arr_t   *arr;
   matrix_mType_t mType;
 } matrix_t;
 /*====================================================================================================*/
