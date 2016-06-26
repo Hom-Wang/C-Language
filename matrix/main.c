@@ -16,14 +16,14 @@ double array[row_n * col_n] = {
 
 #define row_n 4
 #define col_n 4
-matrix_arr_t arrayA[row_n * col_n] = {
+matrix_float_t arrayA[row_n * col_n] = {
    1.0,  3.0, -5.0,  2.0,
    4.0, -3.0,  1.0,  5.0,
    6.0, -2.0,  2.0,  4.0,
    0.0,  2.0,  3.0, -7.0,
 };
 
-matrix_arr_t arrayB[row_n * col_n] = {
+matrix_float_t arrayB[row_n * col_n] = {
    0.000056,  3.0, -5.0,  72.0,
    0.000115, -1.0,  1.0,  2120.0,
    0.000841, -2.0,  8.0,  10.0,

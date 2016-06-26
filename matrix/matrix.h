@@ -7,7 +7,7 @@
 #include <stdint.h>
 /*====================================================================================================*/
 /*====================================================================================================*/
-typedef double matrix_arr_t;
+typedef double matrix_float_t;
 
 typedef enum {
   MTYPE_NORMAL = 0,
@@ -18,38 +18,38 @@ typedef enum {
 typedef struct {
   uint16_t       rows;
   uint16_t       cols;
-  matrix_arr_t   *arr;
+  matrix_float_t *arr;
   matrix_mType_t mType;
 } matrix_t;
 /*====================================================================================================*/
 /*====================================================================================================*/
-void      Matrix_Init( matrix_t *pMatrix, double *pArray, uint16_t rows, uint16_t cols );
-void      Matrix_Clear( matrix_t *pMatrix );
-matrix_t *Matrix_Create( uint16_t rows, uint16_t cols );
-matrix_t *Matrix_CreatePtr( double *pArray, uint16_t rows, uint16_t cols );
-matrix_t *Matrix_CreateDiag( uint16_t cols, double data );
-void      Matrix_Delete( matrix_t *matrix );
-void      Matrix_Copy( matrix_t *pMatrixC1, matrix_t *pMatrixC2 );
-matrix_t *Matrix_CopyMatrix( matrix_t *pMatrix );
-matrix_t *Matrix_CopyArray( double *pArray, uint16_t rows, uint16_t cols );
-void      Matrix_Resize( matrix_t *pMatrix, uint16_t rows, uint16_t cols );
-void      Matrix_SetData( matrix_t *pMatrix, uint16_t rows, uint16_t cols, double data );
-double    Matrix_GetData( matrix_t *pMatrix, uint16_t rows, uint16_t cols );
-void      Matrix_SetDiag( matrix_t *pMatrix, double data );
-void      Matrix_GetDiag( matrix_t *pMatrix, matrix_t *pMatrixD );
-void      Matrix_SetMatrix( matrix_t *pMatrix, matrix_t *pMatrixS, uint16_t rows_pos, uint16_t cols_pos );
-void      Matrix_GetMatrix( matrix_t *pMatrixG, matrix_t *pMatrix, uint16_t rows_pos, uint16_t cols_pos );
-void      Matrix_Add( matrix_t *pMatrix, matrix_t *pMatrixA1, matrix_t *pMatrixA2 );
-void      Matrix_Sub( matrix_t *pMatrix, matrix_t *pMatrixS1, matrix_t *pMatrixS2 );
-void      Matrix_Mul( matrix_t *pMatrix, matrix_t *pMatrixM1, matrix_t *pMatrixM2 );
-void      Matrix_MulNumb( matrix_t *pMatrix, matrix_t *pMatrixM1, double number );
-void      Matrix_Transpose( matrix_t *pMatrix, matrix_t *pMatrixT );
-void      Matrix_Inv( matrix_t *pMatrix, matrix_t *pMatrixInv );
-void      Matrix_GaussianElimination( matrix_t *pMatrix, matrix_t *pMatrixGE );
-double    Matrix_Det( matrix_t *pMatrix );
-void      Matrix_Cholesky( matrix_t *pMatrix, matrix_t *pMatrixC );
-void      Matrix_Print( matrix_t *pMatrix );
-void      Matrix_PrintInfo( matrix_t *pMatrix );
+void           Matrix_Init( matrix_t *pMatrix, matrix_float_t *pArray, uint16_t rows, uint16_t cols );
+void           Matrix_Clear( matrix_t *pMatrix );
+matrix_t      *Matrix_Create( uint16_t rows, uint16_t cols );
+matrix_t      *Matrix_CreatePtr( matrix_float_t *pArray, uint16_t rows, uint16_t cols );
+matrix_t      *Matrix_CreateDiag( uint16_t cols, matrix_float_t data );
+void           Matrix_Delete( matrix_t *matrix );
+void           Matrix_Copy( matrix_t *pMatrixC1, matrix_t *pMatrixC2 );
+matrix_t      *Matrix_CopyMatrix( matrix_t *pMatrix );
+matrix_t      *Matrix_CopyArray( matrix_float_t *pArray, uint16_t rows, uint16_t cols );
+void           Matrix_Resize( matrix_t *pMatrix, uint16_t rows, uint16_t cols );
+void           Matrix_SetData( matrix_t *pMatrix, uint16_t rows, uint16_t cols, matrix_float_t data );
+matrix_float_t Matrix_GetData( matrix_t *pMatrix, uint16_t rows, uint16_t cols );
+void           Matrix_SetDiag( matrix_t *pMatrix, matrix_float_t data );
+void           Matrix_GetDiag( matrix_t *pMatrix, matrix_t *pMatrixD );
+void           Matrix_SetMatrix( matrix_t *pMatrix, matrix_t *pMatrixS, uint16_t rows_pos, uint16_t cols_pos );
+void           Matrix_GetMatrix( matrix_t *pMatrixG, matrix_t *pMatrix, uint16_t rows_pos, uint16_t cols_pos );
+void           Matrix_Add( matrix_t *pMatrix, matrix_t *pMatrixA1, matrix_t *pMatrixA2 );
+void           Matrix_Sub( matrix_t *pMatrix, matrix_t *pMatrixS1, matrix_t *pMatrixS2 );
+void           Matrix_Mul( matrix_t *pMatrix, matrix_t *pMatrixM1, matrix_t *pMatrixM2 );
+void           Matrix_MulNumb( matrix_t *pMatrix, matrix_t *pMatrixM1, matrix_float_t number );
+void           Matrix_Transpose( matrix_t *pMatrix, matrix_t *pMatrixT );
+void           Matrix_Inv( matrix_t *pMatrix, matrix_t *pMatrixInv );
+void           Matrix_GaussianElimination( matrix_t *pMatrix, matrix_t *pMatrixGE );
+matrix_float_t Matrix_Det( matrix_t *pMatrix );
+void           Matrix_Cholesky( matrix_t *pMatrix, matrix_t *pMatrixC );
+void           Matrix_Print( matrix_t *pMatrix );
+void           Matrix_PrintInfo( matrix_t *pMatrix );
 /*====================================================================================================*/
 /*====================================================================================================*/
 #endif
